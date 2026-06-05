@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence
+                                 https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+
+    <!--  Unidad de persistencia: cómo se llamará desde el código Java.
+    La usaremos así: Persistence.createEntityManagerFactory("rubrigradePU")-->
+    <persistence-unit name="rubrigradePU" transaction-type="RESOURCE_LOCAL">
+
+        <!-- Proveedor JPA: usamos Hibernate -->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <!--Lista de entidades que Hibernate debe gestionar.-->
+        <class>es.ieselrincon.rubrigrade.model.Student</class>
+        <class>es.ieselrincon.rubrigrade.model.Subject</class>
+        <class>es.ieselrincon.rubrigrade.model.Rubric</class>
+        <class>es.ieselrincon.rubrigrade.model.RubricCriterion</class>
+        <class>es.ieselrincon.rubrigrade.model.Activity</class>
+        <class>es.ieselrincon.rubrigrade.model.StudentActivityGrade</class>
+        <class>es.ieselrincon.rubrigrade.model.StudentCriterionScore</class>
+
+        <properties>
+
+            <!--CONEXIÓN A LA BASE DE DATOS-->
+            <property name="jakarta.persistence.jdbc.driver"
+                      value="com.mysql.cj.jdbc.Driver"/>
+
+            <property name="jakarta.persistence.jdbc.url"
+                      value="jdbc:mysql://localhost:3306/rubrigrade?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC"/>
+
+            <property name="jakarta.persistence.jdbc.user"
+                      value="root"/>
+
+            <property name="jakarta.persistence.jdbc.password"
+                      value="b07r02117k"/>
+
+            <!--CONFIGURACIÓN DE HIBERNATE-->
+
+            <!-- Dialecto: traduce JPQL/HQL a SQL específico de MySQL -->
+
+            <property name="hibernate.dialect"
+                      value="org.hibernate.dialect.MySQLDialect"/>
+
+            <!-- update = si una entidad cambia, ajusta la tabla automáticamente. -->
+
+            <property name="hibernate.hbm2ddl.auto"
+                      value="update"/>
+
+            <!-- Mostrar las queries SQL por consola: súper útil para depurar -->
+            <property name="hibernate.show_sql"          value="true"/>
+            <property name="hibernate.format_sql"        value="true"/>
+            <property name="hibernate.use_sql_comments"  value="true"/>
+
+        </properties>
+
+    </persistence-unit>
+
+</persistence>
