@@ -11,7 +11,7 @@ import java.util.List;
  * @Table es la tabla
  *
  * @Id es la clave primaria
- * @GeneratedValue(strategy  el id se genera automáticamente
+ * @GeneratedValue  el id se genera automáticamente
  */
 
 @Entity
@@ -24,12 +24,12 @@ public class Activity {
 
 
     // Muchas actividades pertenecen a una asignatura
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
 
     // Muchas actividades pueden usar la misma rúbrica
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rubric_id", nullable = false)
     private Rubric rubric;
 
@@ -52,7 +52,7 @@ public class Activity {
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StudentActivityGrade> grades = new ArrayList<>();
 
-    // ===== Constructores =====
+    //Constructores
     public Activity() {
     }
 
@@ -64,7 +64,7 @@ public class Activity {
         this.dueDate = dueDate;
     }
 
-    // ===== Getters y Setters =====
+    //Getters y Setters
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 

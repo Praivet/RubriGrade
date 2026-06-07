@@ -12,7 +12,7 @@ import java.util.List;
  * @Table es la tabla
  *
  * @Id es la clave primaria
- * @GeneratedValue(strategy  el id se genera automáticamente
+ * @GeneratedValue  el id se genera automáticamente
  */
 @Entity
 @Table(name = "students")
@@ -51,7 +51,7 @@ public class Student {
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StudentActivityGrade> grades = new ArrayList<>();
 
-    // ===== Constructores =====
+    //Constructores
     public Student() {
     }
 
@@ -62,7 +62,7 @@ public class Student {
         this.enrollmentNumber = enrollmentNumber;
     }
 
-    // ===== Getters y Setters =====
+    //Getters y Setters
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 

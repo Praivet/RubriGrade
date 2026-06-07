@@ -19,12 +19,12 @@ public class StudentActivityGrade {
     private Integer id;
 
     // Muchas notas pertenecen a un alumno
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
     // Muchas notas pertenecen a una actividad
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "activity_id", nullable = false)
     private Activity activity;
 
@@ -45,7 +45,7 @@ public class StudentActivityGrade {
     @OneToMany(mappedBy = "grade", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StudentCriterionScore> criterionScores = new ArrayList<>();
 
-    // ===== Constructores =====
+    //Constructores
     public StudentActivityGrade() {
     }
 
@@ -54,7 +54,7 @@ public class StudentActivityGrade {
         this.activity = activity;
     }
 
-    // ===== Getters y Setters =====
+    //Getters y Setters
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 

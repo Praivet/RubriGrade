@@ -23,7 +23,7 @@ import java.util.Map;
  */
 public class EvaluationWindow extends JDialog {
 
-    // ---- DAOs y servicio ----
+    //DAOs y servicio
     private final SubjectDao              subjectDao   = new SubjectDao();
     private final ActivityDao             activityDao  = new ActivityDao();
     private final StudentDao              studentDao   = new StudentDao();
@@ -32,7 +32,7 @@ public class EvaluationWindow extends JDialog {
     private final StudentCriterionScoreDao scoreDao    = new StudentCriterionScoreDao();
     private final GradingService          gradingService = new GradingService();
 
-    // ---- Componentes ----
+    //Componentes
     private JComboBox<Subject>  cmbAsignatura = new JComboBox<>();
     private JComboBox<Activity> cmbActividad  = new JComboBox<>();
     private JComboBox<Student>  cmbAlumno     = new JComboBox<>();
@@ -44,7 +44,7 @@ public class EvaluationWindow extends JDialog {
     private JLabel     lblTotal       = new JLabel("0.0");
     private JLabel     lblNotaFinal   = new JLabel("0.0 / 10");
 
-    /** Bandera para evitar que los listeners se disparen mientras cargamos los desplegables. */
+    // Bandera para evitar que los listeners se disparen mientras cargamos los desplegables.
     private boolean cargando = false;
 
     public EvaluationWindow(JFrame parent) {
@@ -60,9 +60,8 @@ public class EvaluationWindow extends JDialog {
         cargarAsignaturasYAlumnos();
     }
 
-    // ===================================================================
     // PANEL DE SELECCIÓN (los 3 desplegables arriba)
-    // ===================================================================
+
     private JPanel crearPanelSeleccion() {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBorder(BorderFactory.createTitledBorder("Selección"));
@@ -97,9 +96,9 @@ public class EvaluationWindow extends JDialog {
         return panel;
     }
 
-    // ===================================================================
+
     // TABLA DE CRITERIOS
-    // ===================================================================
+
     private JScrollPane crearPanelCriterios() {
         // Columnas:
         //   0 = criterion_id (oculta, la usamos internamente para saber a qué criterio se refiere cada fila)
@@ -126,20 +125,20 @@ public class EvaluationWindow extends JDialog {
         return new JScrollPane(tabla);
     }
 
-    // ===================================================================
+
     // PANEL INFERIOR (comentarios + totales + botones)
-    // ===================================================================
+
     private JPanel crearPanelInferior() {
         JPanel panel = new JPanel(new BorderLayout(5, 5));
 
-        // -- Comentarios generales --
+        // Comentarios generales
         JPanel comentarios = new JPanel(new BorderLayout(5, 5));
         comentarios.setBorder(BorderFactory.createTitledBorder("Comentarios generales"));
         txtComentarios.setLineWrap(true);
         txtComentarios.setWrapStyleWord(true);
         comentarios.add(new JScrollPane(txtComentarios), BorderLayout.CENTER);
 
-        // -- Totales --
+        //  Totales
         JPanel totales = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 5));
         totales.setBorder(BorderFactory.createTitledBorder("Resultado"));
 
@@ -155,7 +154,7 @@ public class EvaluationWindow extends JDialog {
         totales.add(etTotal); totales.add(lblTotal);
         totales.add(etFinal); totales.add(lblNotaFinal);
 
-        // -- Botones --
+        // Botones
         JButton btnCalcular   = new JButton("Calcular");
         JButton btnGuardar    = new JButton("Guardar evaluación");
         JButton btnLimpiar    = new JButton("Limpiar formulario");
@@ -179,9 +178,9 @@ public class EvaluationWindow extends JDialog {
         return panel;
     }
 
-    // ===================================================================
+
     // CARGAS EN CASCADA
-    // ===================================================================
+
     private void cargarAsignaturasYAlumnos() {
         cargando = true;
 
@@ -273,9 +272,8 @@ public class EvaluationWindow extends JDialog {
         if (existente.getFinalGrade() != null) lblNotaFinal.setText(String.format("%.2f / 10", existente.getFinalGrade()));
     }
 
-    // ===================================================================
+
     // ACCIONES
-    // ===================================================================
 
     /**
      * Recorre la tabla, valida y calcula los totales.
@@ -400,9 +398,9 @@ public class EvaluationWindow extends JDialog {
         lblNotaFinal.setText("0.0 / 10");
     }
 
-    // ===================================================================
+
     // AUXILIARES
-    // ===================================================================
+
     private void error(String mensaje, Exception ex) {
         String texto = (ex == null) ? mensaje : mensaje + ":\n" + ex.getMessage();
         JOptionPane.showMessageDialog(this, texto, "Error", JOptionPane.ERROR_MESSAGE);

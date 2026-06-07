@@ -29,7 +29,7 @@ public class Subject {
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Activity> activities = new ArrayList<>();
 
-    // ===== Constructores =====
+    //Constructores
     public Subject() {
     }
 

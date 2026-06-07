@@ -19,14 +19,14 @@ public class RubricsWindow extends JDialog {
     private final RubricDao          rubricDao    = new RubricDao();
     private final RubricCriterionDao criterionDao = new RubricCriterionDao();
 
-    // -------- Componentes de la zona RÚBRICAS --------
+    //Componentes de la zona RÚBRICAS
     private JTable             tablaRubricas;
     private DefaultTableModel  modeloRubricas;
     private JTextField  txtNombreR  = new JTextField(20);
     private JTextField  txtMaxR     = new JTextField(5);
     private JTextArea   txtDescR    = new JTextArea(2, 20);
 
-    // -------- Componentes de la zona CRITERIOS --------
+    //Componentes de la zona CRITERIOS
     private JTable             tablaCriterios;
     private DefaultTableModel  modeloCriterios;
     private JTextField  txtNombreC  = new JTextField(20);
@@ -59,14 +59,14 @@ public class RubricsWindow extends JDialog {
         cargarRubricas();
     }
 
-    // ===================================================================
+
     // PANEL DE RÚBRICAS (master)
-    // ===================================================================
+
     private JPanel crearPanelRubricas() {
         JPanel panel = new JPanel(new BorderLayout(5, 5));
         panel.setBorder(BorderFactory.createTitledBorder("Rúbricas"));
 
-        // ---- Tabla ----
+        //Tabla
         String[] cols = {"ID", "Nombre", "Nota máxima", "Descripción"};
         modeloRubricas = new DefaultTableModel(cols, 0) {
             @Override public boolean isCellEditable(int row, int column) { return false; }
@@ -82,7 +82,7 @@ public class RubricsWindow extends JDialog {
 
         panel.add(new JScrollPane(tablaRubricas), BorderLayout.CENTER);
 
-        // ---- Formulario ----
+        //Formulario
         JPanel form = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(3, 5, 3, 5);
@@ -124,14 +124,14 @@ public class RubricsWindow extends JDialog {
         return panel;
     }
 
-    // ===================================================================
+
     // PANEL DE CRITERIOS (detail)
-    // ===================================================================
+
     private JPanel crearPanelCriterios() {
         JPanel panel = new JPanel(new BorderLayout(5, 5));
         panel.setBorder(BorderFactory.createTitledBorder("Criterios de la rúbrica seleccionada"));
 
-        // ---- Tabla ----
+        //Tabla
         String[] cols = {"ID", "Nombre", "Max", "Orden", "Descripción"};
         modeloCriterios = new DefaultTableModel(cols, 0) {
             @Override public boolean isCellEditable(int row, int column) { return false; }
@@ -144,7 +144,7 @@ public class RubricsWindow extends JDialog {
 
         panel.add(new JScrollPane(tablaCriterios), BorderLayout.CENTER);
 
-        // ---- Formulario ----
+        //Formulario
         JPanel form = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(3, 5, 3, 5);
@@ -166,7 +166,7 @@ public class RubricsWindow extends JDialog {
         txtDescC.setWrapStyleWord(true);
         form.add(new JScrollPane(txtDescC), gbc);
 
-        // ---- Botones ----
+        //Botones
         JButton btnNuevo     = new JButton("Nuevo criterio");
         JButton btnGuardar   = new JButton("Guardar");
         JButton btnModificar = new JButton("Modificar");
@@ -189,9 +189,9 @@ public class RubricsWindow extends JDialog {
         return panel;
     }
 
-    // ===================================================================
+
     // LÓGICA RÚBRICAS
-    // ===================================================================
+
     private void cargarRubricas() {
         modeloRubricas.setRowCount(0);
         for (Rubric r : rubricDao.findAll()) {
@@ -274,9 +274,9 @@ public class RubricsWindow extends JDialog {
         }
     }
 
-    // ===================================================================
+
     // LÓGICA CRITERIOS
-    // ===================================================================
+
     private Integer getRubricaIdSeleccionada() {
         int fila = tablaRubricas.getSelectedRow();
         if (fila < 0) return null;
@@ -377,9 +377,9 @@ public class RubricsWindow extends JDialog {
         }
     }
 
-    // ===================================================================
+
     // AUXILIARES
-    // ===================================================================
+
     /** Parsea un texto a Double admitiendo coma o punto. Si está vacío, devuelve el valor por defecto. */
     private Double parseDouble(String s, double porDefecto) {
         if (s == null || s.trim().isEmpty()) return porDefecto;

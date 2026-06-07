@@ -16,12 +16,12 @@ public class StudentCriterionScore {
     private Integer id;
 
     // Muchas puntuaciones pertenecen a una nota global
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "student_activity_grade_id", nullable = false)
     private StudentActivityGrade grade;
 
     // Muchas puntuaciones se refieren al mismo criterio
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rubric_criterion_id", nullable = false)
     private RubricCriterion criterion;
 
@@ -31,7 +31,7 @@ public class StudentCriterionScore {
     @Column(columnDefinition = "TEXT")
     private String comment;
 
-    // ===== Constructores =====
+    //Constructores
     public StudentCriterionScore() {
     }
 
@@ -41,7 +41,7 @@ public class StudentCriterionScore {
         this.score = score;
     }
 
-    // ===== Getters y Setters =====
+    //Getters y Setters
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 

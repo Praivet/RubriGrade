@@ -48,10 +48,8 @@ public class QueryByStudentWindow extends JDialog {
 
         cargarAlumnos();
     }
-
-    // ===================================================================
     // ARRIBA: selector de alumno
-    // ===================================================================
+
     private JPanel crearPanelSeleccion() {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panel.setBorder(BorderFactory.createTitledBorder("Selecciona un alumno"));
@@ -62,11 +60,11 @@ public class QueryByStudentWindow extends JDialog {
         return panel;
     }
 
-    // ===================================================================
+
     // CENTRO: 2 tablas (notas + desglose por criterio)
-    // ===================================================================
+
     private JSplitPane crearPanelTablas() {
-        // ---- Tabla de notas ----
+        //Tabla de notas
         String[] colsNotas = {"Asignatura", "Actividad", "Total", "Nota final", "Fecha"};
         modeloNotas = new DefaultTableModel(colsNotas, 0) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
@@ -80,7 +78,7 @@ public class QueryByStudentWindow extends JDialog {
         pNotas.setBorder(BorderFactory.createTitledBorder("Notas del alumno"));
         pNotas.add(new JScrollPane(tablaNotas), BorderLayout.CENTER);
 
-        // ---- Tabla de desglose ----
+        //Tabla de desglose
         String[] colsDesg = {"Criterio", "Puntuación", "Comentario"};
         modeloDesglose = new DefaultTableModel(colsDesg, 0) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
@@ -96,9 +94,9 @@ public class QueryByStudentWindow extends JDialog {
         return split;
     }
 
-    // ===================================================================
+
     // ABAJO: media + botón cerrar
-    // ===================================================================
+
     private JPanel crearPanelInferior() {
         JPanel panel = new JPanel(new BorderLayout());
 
@@ -125,9 +123,8 @@ public class QueryByStudentWindow extends JDialog {
         return panel;
     }
 
-    // ===================================================================
     // LÓGICA
-    // ===================================================================
+
     private void cargarAlumnos() {
         cmbAlumno.removeAllItems();
         for (Student s : studentDao.findAll()) cmbAlumno.addItem(s);

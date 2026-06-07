@@ -109,9 +109,9 @@ public class MainWindow extends JFrame {
         return panel;
     }
 
-    //
+
     // PIE DE PÁGINA
-    //
+
     private JPanel crearPiePagina() {
         JPanel pie = new JPanel(new FlowLayout(FlowLayout.CENTER));
         pie.setBackground(new Color(70, 50, 180));

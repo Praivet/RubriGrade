@@ -12,6 +12,7 @@ import java.util.List;
  *
  * @param <T> Tipo de la entidad (Student, Subject, Rubric, etc.)
  */
+
 public abstract class GenericDao<T> {
 
     // Guardamos la "clase" de la entidad para poder usarla en em.find() y queries
@@ -28,7 +29,9 @@ public abstract class GenericDao<T> {
         EntityManager em = HibernateUtil.getEntityManager();
         try {
             em.getTransaction().begin();
+            // metemos el objeto en la bd
             em.persist(entity);
+            //commit lo guarda
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive()) em.getTransaction().rollback();

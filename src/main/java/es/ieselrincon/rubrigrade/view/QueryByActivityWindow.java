@@ -63,7 +63,7 @@ public class QueryByActivityWindow extends JDialog {
     }
 
     private JSplitPane crearPanelTablas() {
-        // ---- Tabla evaluados ----
+        //Tabla evaluados
         String[] colsEval = {"Alumno", "NIA", "Total", "Nota final"};
         modeloEvaluados = new DefaultTableModel(colsEval, 0) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
@@ -73,7 +73,7 @@ public class QueryByActivityWindow extends JDialog {
         pEval.setBorder(BorderFactory.createTitledBorder("Alumnos evaluados"));
         pEval.add(new JScrollPane(tablaEvaluados), BorderLayout.CENTER);
 
-        // ---- Tabla pendientes ----
+        // Tabla pendientes
         String[] colsPend = {"Alumno", "NIA", "Email"};
         modeloPendientes = new DefaultTableModel(colsPend, 0) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
@@ -119,9 +119,9 @@ public class QueryByActivityWindow extends JDialog {
         return panel;
     }
 
-    // ===================================================================
+
     // LÓGICA
-    // ===================================================================
+
     private void cargarActividades() {
         cmbActividad.removeAllItems();
         for (Activity a : activityDao.findAll()) cmbActividad.addItem(a);
@@ -137,7 +137,7 @@ public class QueryByActivityWindow extends JDialog {
             return;
         }
 
-        // 1) Evaluados
+        // Evaluados
         List<StudentActivityGrade> notas = gradeDao.findByActivityId(act.getId());
         Set<Integer> idsEvaluados = new HashSet<>();
         for (StudentActivityGrade nota : notas) {
@@ -150,7 +150,7 @@ public class QueryByActivityWindow extends JDialog {
             idsEvaluados.add(nota.getStudent().getId());
         }
 
-        // 2) Pendientes = todos los alumnos - los ya evaluados
+        //Pendientes = todos los alumnos - los ya evaluados
         List<Student> pendientes = new ArrayList<>();
         for (Student s : studentDao.findAll()) {
             if (!idsEvaluados.contains(s.getId())) pendientes.add(s);
@@ -163,7 +163,7 @@ public class QueryByActivityWindow extends JDialog {
             });
         }
 
-        // 3) Resumen
+        //Resumen
         double media = gradingService.calculateActivityAverage(act.getId());
         lblMedia.setText(notas.isEmpty() ? "- (sin notas)" : String.format("%.2f", media));
         lblEvaluados.setText(String.valueOf(notas.size()));

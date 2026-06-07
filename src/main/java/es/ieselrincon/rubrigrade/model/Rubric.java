@@ -36,7 +36,7 @@ public class Rubric {
     @OneToMany(mappedBy = "rubric")
     private List<Activity> activities = new ArrayList<>();
 
-    // ===== Constructores =====
+    //Constructores
     public Rubric() {
     }
 
@@ -46,7 +46,7 @@ public class Rubric {
         this.maxScore = maxScore;
     }
 
-    // ===== Getters y Setters =====
+    //Getters y Setters
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 

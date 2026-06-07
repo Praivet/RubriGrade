@@ -11,7 +11,7 @@ public class RubricCriterion {
     private Integer id;
 
     // Muchos criterios pertenecen a una rúbrica
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rubric_id", nullable = false)
     private Rubric rubric;
 
@@ -27,7 +27,7 @@ public class RubricCriterion {
     @Column(name = "display_order")
     private Integer displayOrder = 0;
 
-    // ===== Constructores =====
+    //  Constructores
     public RubricCriterion() {
     }
 

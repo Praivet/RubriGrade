@@ -38,9 +38,8 @@ public class StudentsWindow extends JDialog {
         cargarTabla();
     }
 
-    // ===================================================================
     // TABLA
-    // ===================================================================
+
     private JScrollPane crearTabla() {
         String[] columnas = {"ID", "Nombre", "Apellido", "Email", "NIA"};
 
@@ -60,14 +59,14 @@ public class StudentsWindow extends JDialog {
         return new JScrollPane(tabla);
     }
 
-    // ===================================================================
+
     // FORMULARIO + BOTONES
-    // ===================================================================
+
     private JPanel crearFormulario() {
         JPanel panel = new JPanel(new BorderLayout(5, 5));
         panel.setBorder(BorderFactory.createTitledBorder("Datos del alumno"));
 
-        // ----- Campos del formulario -----
+        //Campos del formulario
         JPanel campos = new JPanel(new GridLayout(4, 2, 5, 5));
         campos.add(new JLabel("Nombre:"));     campos.add(txtNombre);
         campos.add(new JLabel("Apellido:"));   campos.add(txtApellido);
@@ -99,9 +98,9 @@ public class StudentsWindow extends JDialog {
         return panel;
     }
 
-    // ===================================================================
+
     // LÓGICA
-    // ===================================================================
+
 
     /** Lee todos los alumnos de la BD y los pone en la tabla. */
     private void cargarTabla() {
@@ -211,9 +210,9 @@ public class StudentsWindow extends JDialog {
         }
     }
 
-    // ===================================================================
+
     // AUXILIARES
-    // ===================================================================
+
     private boolean validarFormulario() {
         if (txtNombre.getText().trim().isEmpty()) {
             error("El nombre es obligatorio.", null);

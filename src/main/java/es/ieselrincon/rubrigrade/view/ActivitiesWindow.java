@@ -50,9 +50,7 @@ public class ActivitiesWindow extends JDialog {
         cargarTabla();
     }
 
-    // ===================================================================
     // TABLA
-    // ===================================================================
     private JScrollPane crearTabla() {
         String[] cols = {"ID", "Nombre", "Asignatura", "Rúbrica", "Max", "Peso", "Fecha"};
         modelo = new DefaultTableModel(cols, 0) {
@@ -66,9 +64,9 @@ public class ActivitiesWindow extends JDialog {
         return new JScrollPane(tabla);
     }
 
-    // ===================================================================
+
     // FORMULARIO
-    // ===================================================================
+
     private JPanel crearFormulario() {
         JPanel panel = new JPanel(new BorderLayout(5, 5));
         panel.setBorder(BorderFactory.createTitledBorder("Datos de la actividad"));
@@ -102,7 +100,7 @@ public class ActivitiesWindow extends JDialog {
         txtDesc.setWrapStyleWord(true);
         form.add(new JScrollPane(txtDesc), gbc);
 
-        // ----- Botones -----
+        // Botones
         JButton btnNuevo     = new JButton("Nuevo");
         JButton btnGuardar   = new JButton("Guardar");
         JButton btnModificar = new JButton("Modificar");
@@ -127,9 +125,9 @@ public class ActivitiesWindow extends JDialog {
         return panel;
     }
 
-    // ===================================================================
+
     // CARGAS INICIALES
-    // ===================================================================
+
     private void cargarComboboxes() {
         cmbAsignatura.removeAllItems();
         for (Subject s : subjectDao.findAll()) cmbAsignatura.addItem(s);
@@ -182,9 +180,8 @@ public class ActivitiesWindow extends JDialog {
         txtNombre.requestFocus();
     }
 
-    // ===================================================================
     // CRUD
-    // ===================================================================
+
     private void guardar() {
         if (!validarFormulario()) return;
         try {
@@ -253,9 +250,8 @@ public class ActivitiesWindow extends JDialog {
         }
     }
 
-    // ===================================================================
     // AUXILIARES
-    // ===================================================================
+
     private boolean validarFormulario() {
         if (txtNombre.getText().trim().isEmpty()) {
             error("El nombre es obligatorio.", null);
@@ -272,7 +268,8 @@ public class ActivitiesWindow extends JDialog {
         return true;
     }
 
-    /** Selecciona un item de un JComboBox buscando por id (no por referencia). */
+    // Selecciona un item de un JComboBox buscando por id (no por referencia).
+
     private <T> void seleccionarEnCombo(JComboBox<T> combo, Integer id) {
         if (id == null) { combo.setSelectedIndex(-1); return; }
         for (int i = 0; i < combo.getItemCount(); i++) {

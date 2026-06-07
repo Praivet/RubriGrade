@@ -13,20 +13,9 @@ import java.util.Map;
  *   - Calcular la nota total y la nota final (escala 0-10).
  *   - Guardar la evaluación completa (cabecera + desglose) en una sola transacción.
  *
- * Es la parte más importante del proyecto desde el punto de vista de negocio.
+ *
  */
 public class GradingService {
-
-    /**
-     * Evalúa a un alumno en una actividad.
-     *
-     * @param studentId       id del alumno a evaluar
-     * @param activityId      id de la actividad
-     * @param scoresByCriterion Mapa con la puntuación obtenida en cada criterio
-     *                          (clave = id del criterio, valor = puntos)
-     * @param comments        Comentarios generales (puede ser null)
-     * @return  La nota guardada en la BD (con id, total y nota final 0-10)
-     */
 
     public StudentActivityGrade evaluate(
             Integer studentId,
@@ -39,7 +28,7 @@ public class GradingService {
         try {
             em.getTransaction().begin();
 
-            // 1) Cargar alumno y actividad
+            //Cargar alumno y actividad
             Student student = em.find(Student.class, studentId);
             Activity activity = em.find(Activity.class, activityId);
 
@@ -53,7 +42,7 @@ public class GradingService {
                 throw new IllegalArgumentException("Debes puntuar al menos un criterio");
             }
 
-            // 2) Validar las puntuaciones y calcular totales
+            //Validar las puntuaciones y calcular totales
             double totalScore = 0.0;
             double maxPossible = 0.0;
 
@@ -82,10 +71,10 @@ public class GradingService {
                 maxPossible += criterion.getMaxScore();
             }
 
-            // 3) Convertir a escala 0-10 según la nota máxima de la actividad
+            // Convertir a escala 0-10 según la nota máxima de la actividad
             double finalGrade = (totalScore / maxPossible) * activity.getMaxScore();
 
-            // 4) ¿Ya estaba evaluado? -> actualizamos. Si no -> creamos
+            // ¿Ya estaba evaluado? -> actualizamos. Si no -> creamos
             List<StudentActivityGrade> existing = em.createQuery(
                     "FROM StudentActivityGrade WHERE student.id = :sid AND activity.id = :aid",
                     StudentActivityGrade.class)
@@ -107,7 +96,7 @@ public class GradingService {
             grade.setFinalGrade(finalGrade);
             grade.setComments(comments);
 
-            // 5) Crear las nuevas puntuaciones por criterio
+            //Crear las nuevas puntuaciones por criterio
             for (Map.Entry<Integer, Double> entry : scoresByCriterion.entrySet()) {
                 RubricCriterion criterion = em.find(RubricCriterion.class, entry.getKey());
                 StudentCriterionScore scs =

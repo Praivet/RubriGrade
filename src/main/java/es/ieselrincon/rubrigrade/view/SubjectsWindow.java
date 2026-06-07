@@ -35,9 +35,9 @@ public class SubjectsWindow extends JDialog {
         cargarTabla();
     }
 
-    // ===================================================================
+
     // TABLA
-    // ===================================================================
+
     private JScrollPane crearTabla() {
         String[] columnas = {"ID", "Código", "Nombre", "Curso", "Descripción"};
         modelo = new DefaultTableModel(columnas, 0) {
@@ -54,9 +54,9 @@ public class SubjectsWindow extends JDialog {
         return new JScrollPane(tabla);
     }
 
-    // ===================================================================
+
     // FORMULARIO
-    // ===================================================================
+
     private JPanel crearFormulario() {
         JPanel panel = new JPanel(new BorderLayout(5, 5));
         panel.setBorder(BorderFactory.createTitledBorder("Datos de la asignatura"));
@@ -83,7 +83,7 @@ public class SubjectsWindow extends JDialog {
         txtDescripcion.setWrapStyleWord(true);
         campos.add(new JScrollPane(txtDescripcion), gbc);
 
-        // ----- Botones -----
+        //Botones
         JButton btnNuevo     = new JButton("Nuevo");
         JButton btnGuardar   = new JButton("Guardar");
         JButton btnModificar = new JButton("Modificar");
@@ -108,9 +108,9 @@ public class SubjectsWindow extends JDialog {
         return panel;
     }
 
-    // ===================================================================
+
     // LÓGICA
-    // ===================================================================
+
     private void cargarTabla() {
         modelo.setRowCount(0);
         List<Subject> asignaturas = dao.findAll();
@@ -212,9 +212,9 @@ public class SubjectsWindow extends JDialog {
         }
     }
 
-    // ===================================================================
+
     // AUXILIARES
-    // ===================================================================
+
     private boolean validarFormulario() {
         if (txtCodigo.getText().trim().isEmpty()) {
             error("El código es obligatorio (ej: DAW-PROG).", null);
