@@ -141,15 +141,15 @@ public class MainWindow extends JFrame {
     }
 
     private void abrirVentanaEvaluacion() {
-        mensajePendiente("Evaluación de alumno");
+        new EvaluationWindow(this).setVisible(true);
     }
 
     private void abrirConsultaNotasAlumno() {
-        mensajePendiente("Consulta de notas por alumno");
+        new QueryByStudentWindow(this).setVisible(true);
     }
 
     private void abrirConsultaNotasActividad() {
-        mensajePendiente("Consulta de notas por actividad");
+        new QueryByActivityWindow(this).setVisible(true);
     }
 
     private void mensajePendiente(String nombreVentana) {
