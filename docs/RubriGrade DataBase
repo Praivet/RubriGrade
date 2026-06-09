@@ -1,0 +1,151 @@
+
+-- 1) Creamos la base de datos (si no existe) y la seleccionamos
+CREATE DATABASE rubrigrade;
+USE rubrigrade;
+
+
+-- TABLA 1: students  (Alumnado)
+
+CREATE TABLE students (
+    id              INT AUTO_INCREMENT PRIMARY KEY,
+    first_name      VARCHAR(50)  NOT NULL,
+    last_name       VARCHAR(50)  NOT NULL,
+    email           VARCHAR(100) UNIQUE,
+    enrollment_number VARCHAR(20) UNIQUE,           -- NIA / nº matrícula
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- TABLA 2: subjects  (Asignaturas / Módulos)
+
+CREATE TABLE subjects (
+    id              INT AUTO_INCREMENT PRIMARY KEY,
+    code            VARCHAR(20)  NOT NULL UNIQUE,   -- Ej: "DAW-PROG"
+    name            VARCHAR(100) NOT NULL,          -- Ej: "Programación"
+    description     TEXT,
+    academic_year   VARCHAR(10)                     -- Ej: "2025/26"
+);
+
+
+-- TABLA 3: rubrics  (Plantillas de rúbrica)
+
+CREATE TABLE rubrics (
+    id              INT AUTO_INCREMENT PRIMARY KEY,
+    name            VARCHAR(100) NOT NULL,          -- Ej: "Rúbrica Proyecto Java"
+    description     TEXT,
+    max_score       DECIMAL(5,2) NOT NULL DEFAULT 10.00,
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- TABLA 4: rubric_criteria  (Criterios que componen cada rúbrica)
+
+CREATE TABLE rubric_criteria (
+    id              INT AUTO_INCREMENT PRIMARY KEY,
+    rubric_id       INT          NOT NULL,
+    name            VARCHAR(100) NOT NULL,          -- Ej: "Funcionalidad"
+    description     TEXT,
+    max_score       DECIMAL(5,2) NOT NULL,          -- Ej: 2.00
+    display_order   INT DEFAULT 0,                  -- Para mostrarlos ordenados
+    CONSTRAINT fk_criteria_rubric
+        FOREIGN KEY (rubric_id) REFERENCES rubrics(id)
+        ON DELETE CASCADE,                          -- Si borro rúbrica, sus criterios fuera
+    CONSTRAINT uq_criterion_per_rubric
+        UNIQUE (rubric_id, name)                    -- No dos criterios iguales en una misma rúbrica
+);
+
+
+-- TABLA 5: activities  (Actividades evaluables)
+
+CREATE TABLE activities (
+    id              INT AUTO_INCREMENT PRIMARY KEY,
+    subject_id      INT          NOT NULL,
+    rubric_id       INT          NOT NULL,
+    name            VARCHAR(100) NOT NULL,
+    description     TEXT,
+    max_score       DECIMAL(5,2) NOT NULL DEFAULT 10.00,
+    weight          DECIMAL(5,2) DEFAULT 100.00,    -- % sobre nota del trimestre
+    due_date        DATE,
+    CONSTRAINT fk_activity_subject
+        FOREIGN KEY (subject_id) REFERENCES subjects(id),
+    CONSTRAINT fk_activity_rubric
+        FOREIGN KEY (rubric_id)  REFERENCES rubrics(id)
+);
+
+
+-- TABLA 6: student_activity_grades  (Nota global de alumno en actividad)
+
+CREATE TABLE student_activity_grades (
+    id              INT AUTO_INCREMENT PRIMARY KEY,
+    student_id      INT          NOT NULL,
+    activity_id     INT          NOT NULL,
+    total_score     DECIMAL(5,2),                   -- Suma bruta de puntos
+    final_grade     DECIMAL(5,2),                   -- Nota convertida a 0-10
+    comments        TEXT,
+    evaluated_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_grade_student
+        FOREIGN KEY (student_id)  REFERENCES students(id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_grade_activity
+        FOREIGN KEY (activity_id) REFERENCES activities(id)
+        ON DELETE CASCADE,
+    CONSTRAINT uq_student_activity
+        UNIQUE (student_id, activity_id)  -- Un alumno no puede tener 2 notas en la misma actividad
+);
+
+
+-- TABLA 7: student_criterion_scores  (Desglose por criterio)
+
+CREATE TABLE student_criterion_scores (
+    id                          INT AUTO_INCREMENT PRIMARY KEY,
+    student_activity_grade_id   INT          NOT NULL,
+    rubric_criterion_id         INT          NOT NULL,
+    score                       DECIMAL(5,2) NOT NULL,
+    comment                     TEXT,
+    CONSTRAINT fk_score_grade
+        FOREIGN KEY (student_activity_grade_id)
+        REFERENCES student_activity_grades(id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_score_criterion
+        FOREIGN KEY (rubric_criterion_id)
+        REFERENCES rubric_criteria(id),
+    CONSTRAINT uq_score_per_criterion
+        UNIQUE (student_activity_grade_id, rubric_criterion_id),
+    CONSTRAINT chk_score_positive
+        CHECK (score >= 0)                          -- No puntuaciones negativas
+);
+
+
+
+-- 2 alumnos
+INSERT INTO students (first_name, last_name, email, enrollment_number) VALUES
+('Iván',  'Bartolomé', 'ivan@iesrincon.es',  'NIA001'),
+('María', 'García',    'maria@iesrincon.es', 'NIA002');
+
+-- 1 asignatura
+INSERT INTO subjects (code, name, description, academic_year) VALUES
+('DAW-PROG', 'Programación', 'Módulo de Programación de 1.º DAW', '2025/26');
+
+-- 1 rúbrica con sus criterios
+INSERT INTO rubrics (name, description, max_score) VALUES
+('Rúbrica Proyecto Java', 'Rúbrica para proyectos Java con Hibernate', 10.00);
+
+-- Recuperamos el id que MySQL acaba de asignar
+SET @rubric_id = LAST_INSERT_ID();
+
+INSERT INTO rubric_criteria (rubric_id, name, max_score, display_order) VALUES
+(@rubric_id, 'Diseño del modelo de datos', 1.00, 1),
+(@rubric_id, 'Entidades JPA e Hibernate',  2.00, 2),
+(@rubric_id, 'Operaciones CRUD',           2.00, 3),
+(@rubric_id, 'Interfaz gráfica Swing',     2.00, 4),
+(@rubric_id, 'Validación y excepciones',   1.00, 5),
+(@rubric_id, 'Documentación y GitHub',     2.00, 6);
+
+-- 1 actividad que usa esa rúbrica
+INSERT INTO activities (subject_id, rubric_id, name, description, max_score, due_date) VALUES
+(1, @rubric_id, 'Proyecto Java con Hibernate', 'Proyecto final de UT8', 10.00, '2026-06-08');
+
+
+-- COMPROBACIONES
+
+SHOW TABLES;
